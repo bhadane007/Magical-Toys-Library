@@ -1,0 +1,55 @@
+(function (w, d, s, f, o, a, m, ck, sk, md) {
+    w['SmartechObject'] = o;
+    w[o] = w[o] || function (a, c, n) {
+        if (a === 'create') {
+            ck = c;
+            sessionStorage.setItem('ck', c);
+            sessionStorage.setItem('__smtidc', (n || '').toLowerCase());
+            checkLoad();
+            return;
+        }
+        if (a === 'register') {
+            sk = c;
+            localStorage.setItem('__stsiteid', c);
+            checkLoad();
+            return;
+        }
+        (w[o].q = w[o].q || []).push(arguments);
+    };
+    var config = localStorage.getItem('__stconfig') || null;
+    if (config) {
+        var cnfg = JSON.parse(config),
+            expd = new Date(cnfg.exd);
+        if (expd > new Date()) {
+            if (cnfg.ps === '0' || cnfg.js === '0') {
+                console.log("Js blocked.");
+                return;
+            }
+        } else {
+            localStorage.removeItem('__stconfig');
+        }
+    }
+    function checkLoad(v) {
+      if (ck && sk) {
+        md = sessionStorage.getItem('__stmd');
+        if (!['l', 's', 'demo', 'dev'].includes(md)) {
+          md = Math.random();
+          md = md > 0.95 ? 'l' : 's';
+          sessionStorage.setItem('__stmd', md);
+        }
+        loadSt(md)
+      }
+    }
+    function loadSt(rc) {
+      a = d.createElement(s);
+      m = d.getElementsByTagName(s)[0];
+      a.async = 1;
+      a.src = 'https:' + f + '?clientkey=' + ck + '&siteid=' + sk + '&rc=' + rc;
+      a.id = 'smartech_v4';
+      var smt = document.getElementById(a.id);
+      if (!smt) {
+        m.parentNode.insertBefore(a, m);
+      }
+    }
+  })(window, document, 'script', '//osjs.netcoresmartech.com/v1/js-versioning', 'smartech');
+  

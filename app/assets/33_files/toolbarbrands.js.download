@@ -1,0 +1,11 @@
+var url = "https://wcdn.ril.com/source/?query="+window.location.host;
+var req = new XMLHttpRequest();
+var msg = "This is not the official website of Reliance Brands of the Reliance Group."
+
+req.open("GET",url, true);
+req.onload = function () {
+  if (this.response == "true") {
+    window.alert(msg)
+  }
+};
+req.send()
